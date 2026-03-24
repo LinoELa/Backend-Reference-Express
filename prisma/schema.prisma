@@ -19,7 +19,7 @@ model User {
   password  String
   createdAt DateTime @default(now())
 
-  reviews        Review[] // Un usuario puede escribir muchas reviews.
+  movies Movie[] @relation("MovieCreator") // Un usuario puede crear muchas peliculas.
   watchlistItems watchlistItem[]
 }
 
@@ -35,24 +35,11 @@ model Movie {
   posterUrl      String?
   createdBy      String // Guarda quien creo el registro de la pelicula.
   createdAt      DateTime        @default(now())
-  reviews        Review[] // Una pelicula puede tener muchas reviews.
+
+  create User @relation("MovieCreator", fields: [createdBy], references: [email]) // Relaciona la pelicula con el usuario que la creo.
   watchlistItems watchlistItem[] // Una pelicula puede estar en muchas watchlists.
 }
 
-// Tabla de reviews: conecta usuarios con peliculas y guarda su valoracion.
-model Review {
-  id        Int      @id @default(autoincrement())
-  rating    Int
-  comment   String?
-  movieId   Int // Clave foranea hacia Movie.
-  userId    Int
-  createdAt DateTime @default(now())
-
-  // Relaciones
-  movie Movie @relation(fields: [movieId], references: [id]) // Cada review pertenece a una pelicula. 
-
-  user User @relation(fields: [userId], references: [id])
-}
 
 // Estados posibles de una pelicula dentro de la watchlist.
 enum WATCHLIST_STATUS {
@@ -75,7 +62,7 @@ model watchlistItem {
   updatedAt DateTime @updatedAt
 
   // Relaciones
-  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade) // Cada review pertenece a un usuario.
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade) // Si un usuario se borra, se borran sus items de la watchlist.
   movie Movie @relation(fields: [movieId], references: [id])
 
   @@unique([userId, movieId]) // Evita duplicar la misma pelicula en la watchlist de un usuario.
