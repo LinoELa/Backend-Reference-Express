@@ -211,6 +211,62 @@ return res.status(200).json({
 });
 ```
 
+## Importante sobre `user.id`
+
+En este proyecto actual, el login y el JWT trabajan con `user.id`.
+
+Eso se ve en [`loginController.js`](/c:/Users/Pc-lino-ela/Documents/Ela/DEVELOPER/EXPRESS-CRASH/PedroTech/src/controllers/auth/loginController.js):
+
+```javascript
+const token = generateToken(user.id, res);
+```
+
+Y tambien en [`generateToken.js`](/c:/Users/Pc-lino-ela/Documents/Ela/DEVELOPER/EXPRESS-CRASH/PedroTech/src/utils/token/generateToken.js), donde el payload guarda ese valor:
+
+```javascript
+const payload = {
+  id: userId,
+};
+```
+
+Por eso, si el usuario viene normal desde Prisma, la forma correcta es:
+
+```javascript
+generateToken(user.id, res);
+```
+
+Si en otro proyecto el usuario viniera con otra estructura, por ejemplo `user._id` o `user.doc.id`, entonces tendrias que pasar ese valor real al token:
+
+```javascript
+generateToken(user._id, res);
+```
+
+## `id` en JWT no va encriptado
+
+Es importante no confundir esto con la password.
+
+- la `password` si se guarda hasheada con `bcrypt`
+- el `id` dentro del JWT no va encriptado
+- el JWT va firmado con `JWT_SECRET`
+
+Eso significa que el payload del token se puede leer si alguien lo decodifica, por ejemplo:
+
+```javascript
+{
+  id: 2,
+  iat: 1774477143,
+  exp: 1775081943
+}
+```
+
+Lo importante aqui no es ocultar el `id`, sino asegurar que el token no pueda ser modificado sin la firma correcta.
+
+En resumen:
+
+- `bcrypt` protege passwords
+- `jsonwebtoken` firma tokens
+- `user.id` puede viajar dentro del payload del JWT sin problema
+
 ## Ejemplo real de logout controller
 
 ```javascript

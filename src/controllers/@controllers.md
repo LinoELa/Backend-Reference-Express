@@ -13,3 +13,4 @@ Dentro de `auth/` se agrupan los controllers relacionados con autenticacion, com
 
 - `registerController.js`
 - `loginController.js`
+- `logoutController.js`

@@ -13,7 +13,7 @@ datasource db {
 
 // Tabla de usuarios de la aplicacion.
 model User {
-  id        Int      @id @default(autoincrement())
+  id        String   @id @default(uuid()) @db.Uuid
   name      String
   email     String   @unique // El email no se puede repetir entre usuarios.
   password  String
@@ -25,7 +25,7 @@ model User {
 
 // Tabla de peliculas.
 model Movie {
-  id             Int             @id @default(autoincrement())
+  id             String          @id @default(uuid()) @db.Uuid
   title          String
   overview       String? // Resumen corto opcional.
   description    String
@@ -33,10 +33,10 @@ model Movie {
   genres         String[]        @default([]) // PostgreSQL permite arrays de texto.
   runtime        Int?
   posterUrl      String?
-  createdBy      String // Guarda quien creo el registro de la pelicula.
+  createdBy      String          @db.Uuid // Guarda el UUID del usuario que creo la pelicula.
   createdAt      DateTime        @default(now())
 
-  create User @relation("MovieCreator", fields: [createdBy], references: [email]) // Relaciona la pelicula con el usuario que la creo.
+  creator User @relation("MovieCreator", fields: [createdBy], references: [id], onDelete: Cascade) // Relaciona la pelicula con el usuario que la creo.
   watchlistItems watchlistItem[] // Una pelicula puede estar en muchas watchlists.
 }
 
@@ -51,9 +51,9 @@ enum WATCHLIST_STATUS {
 
 // Tabla intermedia entre usuarios y peliculas para la watchlist.
 model watchlistItem {
-  id      Int              @id @default(autoincrement())
-  movieId Int // Clave foranea hacia Movie.
-  userId  Int
+  id      String           @id @default(uuid()) @db.Uuid
+  movieId String           @db.Uuid // Clave foranea hacia Movie.
+  userId  String           @db.Uuid
   status  WATCHLIST_STATUS @default(PLANNED) // Estado actual en la watchlist.
   rating  Int?
   notes   String? // Notas opcionales del usuario.

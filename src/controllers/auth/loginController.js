@@ -25,6 +25,7 @@ const login = async (req, res) => {
       });
     }
 
+    // Check if email and passwoed exist in table
     const user = await prisma.user.findUnique({
       where: { email },
     });
@@ -39,17 +40,16 @@ const login = async (req, res) => {
 
     if (!isPasswordValid) {
       return res.status(401).json({
-        message: "Credenciales invalidas",
+        error: "Credenciales invalidas",
       });
     }
-
+    // Generar token JWT
     const token = generateToken(user.id, res);
 
-    return res.status(200).json({
+    return res.status(201).json({
       message: "Login exitoso",
       data: {
         id: user.id,
-        name: user.name,
         email: user.email,
       },
       token,

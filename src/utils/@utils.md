@@ -9,3 +9,5 @@ Ejemplo:
 - `generateToken.js`: se puede usar para centralizar la creacion de JWT
 
 La idea es evitar repetir codigo en distintas partes del proyecto.
+
+En este proyecto, `generateToken.js` recibe el `UUID` del usuario y firma el JWT con `JWT_SECRET`.

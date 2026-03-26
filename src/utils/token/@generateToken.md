@@ -6,13 +6,25 @@ Este archivo sirve para generar un `JWT` cuando un usuario inicia sesion correct
 
 `generateToken.js` centraliza la logica de firma del token para no repetirla dentro de cada controller.
 
-Recibe el `id` del usuario y crea un payload minimo:
+Recibe el `id` del usuario y crea un payload minimo.
+
+En este proyecto actual, ese `id` es un `UUID`.
+
+El payload queda asi:
 
 - `id`
 
 Luego firma ese payload con `jsonwebtoken` usando la clave `JWT_SECRET` guardada en `.env`.
 
 Opcionalmente tambien puede recibir `res` para guardar el token en una cookie `httpOnly`.
+
+## Importante
+
+- la password del usuario se protege con `bcrypt`
+- el `id` del JWT no va encriptado
+- el token va firmado con `JWT_SECRET`
+
+Eso significa que el `UUID` puede verse dentro del payload si alguien decodifica el token, pero no puede modificarse libremente sin invalidar la firma.
 
 ## Que necesita en `.env`
 

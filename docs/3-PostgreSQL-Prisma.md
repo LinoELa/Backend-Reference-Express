@@ -2,11 +2,11 @@
 
 ## PostgreSQL
 
-PostgreSQL es un sistema de gestion de bases de datos relacional (RDBMS) open source, potente y muy usado en backend por su estabilidad, rendimiento y soporte para consultas complejas.
+PostgreSQL es un sistema de gestion de bases de datos relacional muy usado en backend por su estabilidad, rendimiento y soporte para consultas complejas.
 
 ## Prisma
 
-Prisma es un ORM (Object-Relational Mapping) para Node.js y TypeScript. Permite:
+Prisma es un ORM para Node.js y TypeScript. Permite:
 
 - definir el esquema de la base de datos
 - generar un cliente tipado
@@ -39,6 +39,75 @@ En `.env`:
 ```env
 DATABASE_URL="postgresql://usuario:contrasena@localhost:5432/mi_base_de_datos"
 ```
+
+## Como sacar los datos de conexion
+
+Si ya tienes una `DATABASE_URL`, de ahi puedes extraer estos datos:
+
+- `host`
+- `puerto`
+- `nombre de la base`
+- `usuario`
+- `password`
+
+Ejemplo:
+
+```env
+DATABASE_URL="postgresql://usuario:contrasena@localhost:5432/mi_base_de_datos"
+```
+
+De esa URL sale esto:
+
+- `usuario`: `usuario`
+- `password`: `contrasena`
+- `host`: `localhost`
+- `puerto`: `5432`
+- `nombre de la base`: `mi_base_de_datos`
+
+La estructura general es:
+
+```text
+postgresql://USUARIO:PASSWORD@HOST:PUERTO/NOMBRE_BD
+```
+
+### Ejemplo con Neon
+
+Si tu terminal muestra algo como esto:
+
+```text
+ep-proud-meadow-anj46pem-pooler.c-6.us-east-1.aws.neon.tech
+```
+
+entonces normalmente los datos visibles serian:
+
+- `host`: `ep-proud-meadow-anj46pem-pooler.c-6.us-east-1.aws.neon.tech`
+- `puerto`: `5432`
+- `nombre de la base`: `neondb`
+- `usuario`: se obtiene mirando la `DATABASE_URL` completa en `.env`
+- `password`: es la parte entre `usuario:` y `@host` dentro de la `DATABASE_URL`
+
+Ejemplo de estructura:
+
+```text
+postgresql://USUARIO:PASSWORD@HOST:5432/neondb
+```
+
+### Como verlo en DBeaver
+
+Si ya tienes la base conectada en DBeaver:
+
+1. abre DBeaver
+2. click derecho sobre la conexion
+3. pulsa `Edit Connection`
+4. revisa los campos `Host`, `Port`, `Database`, `Username` y `Password`
+
+Con eso puedes reconstruir la `DATABASE_URL`.
+
+### Importante
+
+- no compartas la password en capturas o apuntes
+- si ensenas la `DATABASE_URL`, tapa la parte de la contrasena
+- DBeaver y Prisma usan los mismos datos de conexion; solo cambia el formato
 
 ### Ejemplo basico de `schema.prisma`
 
@@ -77,20 +146,17 @@ Si quieres guardar quien creo una pelicula, el campo correcto en `Movie` es `cre
 ### Ejemplo de esquema para este proyecto
 
 ```prisma
-// Genera el cliente de Prisma para usarlo desde Node.js
 generator client {
   provider = "prisma-client-js"
 }
 
-// Configura la conexion con PostgreSQL usando la variable DATABASE_URL
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-// Tabla de usuarios
 model User {
-  id             Int             @id @default(autoincrement())
+  id             String          @id @default(uuid())
   name           String
   email          String          @unique
   password       String
@@ -99,9 +165,8 @@ model User {
   watchlistItems watchlistItem[]
 }
 
-// Tabla de peliculas
 model Movie {
-  id             Int             @id @default(autoincrement())
+  id             String          @id @default(uuid())
   title          String
   overview       String?
   description    String
@@ -111,11 +176,10 @@ model Movie {
   posterUrl      String?
   createdBy      String
   createdAt      DateTime        @default(now())
-  creator        User            @relation("MovieCreator", fields: [createdBy], references: [email])
+  creator        User            @relation("MovieCreator", fields: [createdBy], references: [id], onDelete: Cascade)
   watchlistItems watchlistItem[]
 }
 
-// Estados posibles para una pelicula dentro de la watchlist
 enum WATCHLIST_STATUS {
   PLANNED
   WATCHING
@@ -123,11 +187,10 @@ enum WATCHLIST_STATUS {
   DROPPED
 }
 
-// Tabla intermedia entre usuarios y peliculas
 model watchlistItem {
-  id        Int              @id @default(autoincrement())
-  movieId   Int
-  userId    Int
+  id        String           @id @default(uuid())
+  movieId   String
+  userId    String
   status    WATCHLIST_STATUS @default(PLANNED)
   rating    Int?
   notes     String?
@@ -143,21 +206,130 @@ model watchlistItem {
 
 ### Que significa este esquema
 
-- `generator client`: crea el cliente de Prisma que luego importas en tu aplicacion para hacer consultas.
-- `datasource db`: define que la base de datos del proyecto es PostgreSQL y que la conexion sale de `.env`.
-- `User`: guarda los datos del usuario y sus relaciones con peliculas creadas y elementos de watchlist.
-- `Movie`: representa cada pelicula. El campo `createdBy` permite saber que usuario la creo.
-- `watchlistItem`: funciona como tabla intermedia entre `User` y `Movie`, y ademas guarda informacion propia como `status`, `rating` y `notes`.
-- `WATCHLIST_STATUS`: evita escribir estados libres como texto y te fuerza a usar valores controlados.
-- `@@unique([userId, movieId])`: impide que un mismo usuario repita la misma pelicula dentro de su watchlist.
+- `generator client`: crea el cliente de Prisma que luego importas en tu aplicacion para hacer consultas
+- `datasource db`: define que la base de datos del proyecto es PostgreSQL y que la conexion sale de `.env`
+- `User`: guarda los datos del usuario y sus relaciones con peliculas creadas y elementos de watchlist
+- `Movie`: representa cada pelicula y `createdBy` guarda el UUID del usuario creador
+- `watchlistItem`: funciona como tabla intermedia entre `User` y `Movie`, y ademas guarda `status`, `rating` y `notes`
+- `WATCHLIST_STATUS`: evita escribir estados libres como texto
+- `@@unique([userId, movieId])`: impide que un mismo usuario repita la misma pelicula dentro de su watchlist
 
 ### Comentarios utiles
 
-- `createdAt` con `@default(now())` guarda la fecha automaticamente al crear el registro.
-- `updatedAt` con `@updatedAt` se actualiza solo cada vez que modificas ese item.
-- `String[]` en `genres` aprovecha que PostgreSQL soporta arrays de texto.
-- `onDelete: Cascade` hace que si se borra un usuario, tambien se borren sus elementos de watchlist relacionados.
-- Si despues quieres guardar mas informacion del creador de la pelicula, otra opcion mas comun es usar `createdById Int` y relacionarlo con `User.id` en lugar del email.
+- `createdAt` con `@default(now())` guarda la fecha automaticamente al crear el registro
+- `updatedAt` con `@updatedAt` se actualiza solo cada vez que modificas ese item
+- `String[]` en `genres` aprovecha que PostgreSQL soporta arrays de texto
+- `onDelete: Cascade` hace que si se borra un usuario, tambien se borren sus elementos de watchlist relacionados
+- en este proyecto los IDs son `UUID`, no enteros autoincrementales
+- `createdBy` guarda el UUID del usuario creador y se relaciona con `User.id`
+
+## Importante si cambias de `Int` a `UUID`
+
+Este cambio si afecta la base de datos.
+
+Si antes tenias algo como:
+
+```prisma
+id Int @id @default(autoincrement())
+```
+
+y lo cambias a:
+
+```prisma
+id String @id @default(uuid())
+```
+
+entonces necesitas aplicar una migracion o hacer reset de la base de datos en desarrollo.
+
+Lo normal seria ejecutar:
+
+```bash
+npx prisma migrate dev --name use-uuid-ids
+```
+
+Este comando:
+
+- crea una nueva migracion con el nombre `use-uuid-ids`
+- aplica esa migracion en tu base de datos de desarrollo
+- actualiza el historial dentro de `prisma/migrations`
+- regenera Prisma Client si hace falta
+- deja el proyecto alineado con el nuevo esquema
+
+Si la base de datos es solo de pruebas y no te importa resetearla:
+
+```bash
+npx prisma migrate reset
+```
+
+Este comando:
+
+- borra la base de datos de desarrollo
+- vuelve a crear todas las tablas desde cero
+- aplica todas las migraciones existentes
+- puede volver a ejecutar el seed si lo tienes configurado
+
+Despues de eso, Prisma volvera a generar registros con IDs tipo UUID.
+
+## `autoincrement()` o `uuid()` en `User.id`
+
+Las dos opciones son validas. La eleccion depende de como quieras modelar tu proyecto.
+
+### Opcion 1: `autoincrement()`
+
+```prisma
+model User {
+  id    Int    @id @default(autoincrement())
+  name  String
+  email String @unique
+}
+```
+
+Esto genera IDs como:
+
+```text
+1
+2
+3
+4
+```
+
+Suele convenir cuando:
+
+- estas aprendiendo o empezando con Prisma
+- quieres un esquema mas simple de leer
+- tu proyecto es pequeno o de practica
+- no te importa que los IDs sean consecutivos
+
+### Opcion 2: `uuid()`
+
+```prisma
+model User {
+  id    String @id @default(uuid())
+  name  String
+  email String @unique
+}
+```
+
+Esto genera IDs como:
+
+```text
+bed29a3e-8386-4506-b44b-8fd7fb886c23
+ce304397-4b03-4572-b45f-4c7220e61cbc
+```
+
+Suele convenir cuando:
+
+- quieres IDs menos predecibles
+- vas a exponer IDs en APIs o tokens
+- quieres un estilo mas cercano a proyectos reales modernos
+- prefieres que todas las relaciones usen `String` en lugar de `Int`
+
+### Regla practica para elegir
+
+- usa `autoincrement()` si quieres simplicidad y estas aprendiendo
+- usa `uuid()` si quieres un modelo mas profesional y menos predecible
+
+En este proyecto actual se ha elegido `uuid()`.
 
 ## Comandos utiles de Prisma
 
@@ -202,8 +374,6 @@ dotenv.config();
 - compatible con MySQL, PostgreSQL y SQLite
 - basado en modelos clasicos tipo Active Record
 
-Ideal para proyectos legacy o enfoques mas tradicionales.
-
 ### TypeORM
 
 - muy usado en proyectos Node.js con TypeScript
@@ -211,13 +381,9 @@ Ideal para proyectos legacy o enfoques mas tradicionales.
 - soporta Active Record y Data Mapper
 - muy comun en proyectos con NestJS
 
-Ideal si quieres una estructura mas orientada a entidades y decorators.
-
 ### Drizzle ORM
 
 - ORM moderno y ligero
 - muy centrado en TypeScript
 - tipado fuerte y consultas bastante explicitas
 - buena opcion si quieres mas control y menos abstraccion
-
-Ideal si buscas simplicidad, tipado solido y un enfoque mas moderno.
