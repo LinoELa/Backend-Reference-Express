@@ -14,16 +14,18 @@ import { prisma } from "../../config/db.js";
  *
  */
 
-const register = async (req, res) => {
+const registerController = async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
+    // Validamos que lleguen los campos minimos del registro.
     if (!name || !email || !password) {
       return res.status(400).json({
         message: "name, email y password son obligatorios",
       });
     }
 
+    // Comprobamos si ya existe un usuario con ese email.
     const existingUser = await prisma.user.findUnique({
       where: { email },
     });
@@ -34,9 +36,11 @@ const register = async (req, res) => {
       });
     }
 
+    // La password nunca se guarda en texto plano.
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
+    // Prisma genera el UUID del usuario automaticamente.
     const newUser = await prisma.user.create({
       data: {
         name,
@@ -54,6 +58,7 @@ const register = async (req, res) => {
       },
     });
   } catch (error) {
+    // Si algo falla en base de datos o hashing, devolvemos error controlado.
     console.error("Error register user:", error);
     return res.status(500).json({
       message: "Error interno del servidor",
@@ -61,4 +66,4 @@ const register = async (req, res) => {
   }
 };
 
-export { register };
+export { registerController };

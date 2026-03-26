@@ -4,6 +4,8 @@ import express from "express";
 import dotenv from "dotenv";
 import movieRouters from "./src/routers/movieRouters.js";
 import authRouters from "./src/routers/authRouters.js";
+import watchListRouters from "./src/routers/watchListRouters.js";
+
 import { connectDB, disconnectDB } from "./src/config/db.js";
 
 // ======================= ENV CONFIG ======================================
@@ -33,6 +35,8 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/movies", movieRouters);
 app.use("/auth", authRouters);
+
+app.use("/watchlist", watchListRouters);
 
 // ======================= START SERVER ====================================
 

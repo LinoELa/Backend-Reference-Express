@@ -160,9 +160,9 @@ src/
 ## Rutas actuales de auth
 
 ```javascript
-router.post("/register", register);
-router.post("/login", login);
-router.post("/logout", logout);
+router.post("/register", registerController);
+router.post("/login", loginController);
+router.post("/logout", logoutController);
 ```
 
 ## Que hace cada archivo
@@ -204,7 +204,6 @@ return res.status(200).json({
   message: "Login exitoso",
   data: {
     id: user.id,
-    name: user.name,
     email: user.email,
   },
   token,
@@ -253,7 +252,7 @@ Eso significa que el payload del token se puede leer si alguien lo decodifica, p
 
 ```javascript
 {
-  id: 2,
+  id: "ce304397-4b03-4572-b45f-4c7220e61cbc",
   iat: 1774477143,
   exp: 1775081943
 }

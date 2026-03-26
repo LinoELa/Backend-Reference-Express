@@ -15,17 +15,18 @@ import { generateToken } from "../../utils/token/generateToken.js";
  *
  */
 
-const login = async (req, res) => {
+const loginController = async (req, res) => {
   try {
     const { email, password } = req.body;
 
+    // Validamos que el usuario envie email y password.
     if (!email || !password) {
       return res.status(400).json({
         message: "email y password son obligatorios",
       });
     }
 
-    // Check if email and passwoed exist in table
+    // Buscamos al usuario por email.
     const user = await prisma.user.findUnique({
       where: { email },
     });
@@ -36,6 +37,7 @@ const login = async (req, res) => {
       });
     }
 
+    // Comparamos la password recibida con el hash guardado.
     const isPasswordValid = await bcrypt.compare(password, user.password);
 
     if (!isPasswordValid) {
@@ -43,10 +45,11 @@ const login = async (req, res) => {
         error: "Credenciales invalidas",
       });
     }
-    // Generar token JWT
+
+    // Si las credenciales son validas, generamos el JWT.
     const token = generateToken(user.id, res);
 
-    return res.status(201).json({
+    return res.status(200).json({
       message: "Login exitoso",
       data: {
         id: user.id,
@@ -55,6 +58,7 @@ const login = async (req, res) => {
       token,
     });
   } catch (error) {
+    // Capturamos errores inesperados del proceso de login.
     console.error("Error login user:", error);
     return res.status(500).json({
       message: "Error interno del servidor",
@@ -62,4 +66,4 @@ const login = async (req, res) => {
   }
 };
 
-export { login };
+export { loginController };

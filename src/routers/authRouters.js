@@ -1,14 +1,14 @@
 // ======================= IMPORTS =========================================
 
 import express from "express";
-import { register } from "../controllers/auth/registerController.js";
-import { login } from "../controllers/auth/loginController.js";
-import { logout } from "../controllers/auth/logoutController.js";
+import { registerController } from "../controllers/auth/registerController.js";
+import { loginController } from "../controllers/auth/loginController.js";
+import { logoutController } from "../controllers/auth/logoutController.js";
 
-// =======================Expess ===========================
+// ======================= EXPRESS ROUTER ==================================
 
 /**
- * imnpotamos express Router para definir rutas de autenticacion
+ * Importamos Express Router para definir rutas de autenticacion.
  * @ROUTER | Express Router
  */
 
@@ -26,8 +26,13 @@ const router = express.Router();
  * @LOGOUT | POST /api/auth/logout
  *
  */
-router.post("/register", register);
-router.post("/login", login);
-router.post("/logout", logout);
+// Registro de usuarios nuevos.
+router.post("/register", registerController);
+
+// Login y generacion del token JWT.
+router.post("/login", loginController);
+
+// Logout y limpieza de la cookie del token.
+router.post("/logout", logoutController);
 
 export default router;
