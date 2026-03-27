@@ -62,21 +62,27 @@ PUT /movies/:id
 DELETE /movies/:id
 ```
 
-## GET en `watchlist`
+## Endpoints completos de `watchlist`
 
-Tambien se agrego:
+Ahora mismo `watchlist` ya queda asi:
 
 ```javascript
 router.get("/", getWatchListController);
+router.post("/", validateRequest(addToWatchListSchema), addToWatchListController);
+router.put("/:id", validateRequest(updateWatchListSchema), updateWatchListController);
+router.delete("/:id", removeFromWatchListController);
 ```
 
 Eso permite:
 
 ```text
 GET /watchlist
+POST /watchlist
+PUT /watchlist/:id
+DELETE /watchlist/:id
 ```
 
-y devuelve los items del usuario autenticado junto con su `movie`.
+`GET /watchlist` devuelve los items del usuario autenticado junto con su `movie`.
 
 ## Relacion con middleware y validaciones
 

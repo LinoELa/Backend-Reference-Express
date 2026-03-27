@@ -18,4 +18,11 @@ En este proyecto actual, los controllers principales son:
 - `updateMovieController`
 - `removeMovieController`
 
+Los endpoints principales de este modulo son:
+
+- `GET /movies`
+- `POST /movies`
+- `PUT /movies/:id`
+- `DELETE /movies/:id`
+
 La idea es separar esta logica del router para que `movieRouters.js` solo conecte rutas, middlewares y validaciones.

@@ -22,7 +22,7 @@ En este proyecto actual:
 - `movieRouters.js` deja `GET` publico y protege `POST`, `PUT` y `DELETE`
 - `movieRouters.js` valida `POST` y `PUT` con Zod
 - `watchListRouters.js` protege watchlist con `authMiddleware`
-- `watchListRouters.js` ya permite listar la watchlist autenticada con `GET`
+- `watchListRouters.js` ya permite `GET`, `POST`, `PUT` y `DELETE` para la watchlist autenticada
 - `watchListRouters.js` valida `POST` y `PUT` con Zod antes de llegar al controller
 
 Los routers no deberian tener la logica principal del negocio. Su trabajo es recibir la peticion y delegarla al controller correspondiente.

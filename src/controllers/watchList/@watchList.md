@@ -19,4 +19,11 @@ En este proyecto actual, los controllers principales son:
 - `removeFromWatchListController`
 - `updateWatchListController`
 
+Los endpoints principales de este modulo son:
+
+- `GET /watchlist`
+- `POST /watchlist`
+- `PUT /watchlist/:id`
+- `DELETE /watchlist/:id`
+
 La idea es separar esta logica de `auth` para que cada modulo tenga su propia responsabilidad.
