@@ -14,6 +14,48 @@ Este proyecto trabaja autenticacion de usuarios, peliculas y watchlist. Ahora mi
 - seed de peliculas
 - rutas de watchlist protegidas
 
+## GitHub About
+
+### Short description
+
+```text
+Express backend reference with Prisma, PostgreSQL, JWT auth, watchlist, and Zod validations.
+```
+
+### Topics
+
+```text
+express
+nodejs
+backend
+api
+prisma
+postgresql
+jwt
+authentication
+middleware
+zod
+validation
+watchlist
+seed
+reference-project
+```
+
+### Website
+
+Puedes usar:
+
+```text
+https://github.com/LinoELa/backend-reference-express
+```
+
+Si prefieres, tambien puedes dejar `Website` vacio hasta que tengas:
+
+- Swagger
+- docs desplegadas
+- frontend
+- API online
+
 ## Stack
 
 - `Node.js`
