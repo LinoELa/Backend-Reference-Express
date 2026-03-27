@@ -7,11 +7,15 @@ import { generateToken } from "../../utils/token/generateToken.js";
 // ======================= AUTH | LOGIN CONTROLLER =========================
 
 /**
- * Controller de login.
+ * - Inicia sesion de usuario.
+ * - Valida email y password
+ * - Comprueba credenciales
+ * - Genera un JWT al autenticarse
+ *
  * Este archivo valida email y password, busca el usuario,
  * compara el hash y genera un JWT cuando el login es correcto.
  *
- * @LOGIN | POST /api/auth/login
+ * @LOGIN | POST /auth/login
  *
  */
 

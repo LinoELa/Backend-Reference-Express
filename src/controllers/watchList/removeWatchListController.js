@@ -5,11 +5,15 @@ import { prisma } from "../../config/db.js";
 // ======================= WATCHLIST | REMOVE CONTROLLER ===================
 
 /**
- * Controller para eliminar peliculas de la watchlist.
+ * - Elimina un item de la watchlist.
+ * - Valida que el item exista
+ * - Asegura que solo el duenio pueda borrarlo
+ * - Requiere middleware de autenticacion
+ *
  * Este archivo comprueba que el item exista
  * y que pertenezca al usuario autenticado.
  *
- * @WATCHLIST | DELETE /api/watchlist/:id
+ * @WATCHLIST | DELETE /watchlist/:id
  *
  */
 

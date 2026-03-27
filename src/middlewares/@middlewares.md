@@ -22,9 +22,10 @@ Ahora mismo `authMiddleware.js` ya tiene una primera version funcional.
 Ahora mismo ese middleware:
 
 - intenta leer el token desde `Authorization: Bearer <token>`
-- tambien intenta leerlo desde la cookie `jwt`
-- leer el JWT
-- validarlo
+- tambien intenta leerlo desde la cookie `token`
+- requiere `cookie-parser` si queremos leer cookies en Express
+- lee el JWT
+- lo valida
 - obtener el usuario autenticado
 - guardar el usuario en `req.user`
 - permitir o bloquear el acceso a `watchlist`

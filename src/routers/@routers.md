@@ -17,7 +17,12 @@ Ejemplos:
 En este proyecto actual:
 
 - `authRouters.js` trabaja con `registerController`, `loginController` y `logoutController`
-- `movieRouters.js` esta preparado como base para las rutas de peliculas
-- `watchListRouters.js` conecta la ruta para agregar peliculas a la watchlist
+- `authRouters.js` valida register y login con Zod antes de llegar al controller
+- `movieRouters.js` conecta controllers reales para listar, crear, actualizar y borrar
+- `movieRouters.js` deja `GET` publico y protege `POST`, `PUT` y `DELETE`
+- `movieRouters.js` valida `POST` y `PUT` con Zod
+- `watchListRouters.js` protege watchlist con `authMiddleware`
+- `watchListRouters.js` ya permite listar la watchlist autenticada con `GET`
+- `watchListRouters.js` valida `POST` y `PUT` con Zod antes de llegar al controller
 
 Los routers no deberian tener la logica principal del negocio. Su trabajo es recibir la peticion y delegarla al controller correspondiente.

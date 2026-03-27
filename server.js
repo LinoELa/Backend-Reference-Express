@@ -1,6 +1,7 @@
 // ======================= IMPORTS =========================================
 
 import express from "express";
+import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import movieRouters from "./src/routers/movieRouters.js";
 import authRouters from "./src/routers/authRouters.js";
@@ -30,6 +31,7 @@ const port = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 // ======================= API ROUTES ======================================
 

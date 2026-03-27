@@ -15,8 +15,16 @@ Dentro de `auth/` se agrupan los controllers relacionados con autenticacion, com
 - `loginController.js`
 - `logoutController.js`
 
+Dentro de `movie/` se agrupan los controllers relacionados con peliculas, como:
+
+- `getMoviesController.js`
+- `addMovieController.js`
+- `updateMovieController.js`
+- `removeMovieController.js`
+
 Dentro de `watchList/` se agrupan los controllers relacionados con la watchlist, como:
 
+- `getWatchListController.js`
 - `addWatchListController.js`
 - `removeWatchListController.js`
 - `updateWatchListController.js`

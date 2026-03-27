@@ -6,7 +6,12 @@ import { prisma } from "../config/db.js";
 // ======================= AUTH MIDDLEWARE ================================
 
 /**
- * Middleware de autenticacion.
+ * - Protege rutas privadas.
+ * - Lee el token JWT
+ * - Valida el token
+ * - Busca al usuario autenticado
+ * - Guarda el usuario en `req.user`
+ *
  * Este archivo lee el token JWT, lo valida
  * y busca al usuario autenticado en la base de datos.
  *
@@ -28,9 +33,11 @@ const authMiddleware = async (req, res, next) => {
   ) {
     token = req.headers.authorization.split(" ")[1];
   }
-  // 2. Si no viene en el header, intentamos leerlo desde la cookie `jwt`.
-  else if (req.cookie?.jwt) {
-    token = req.cookie.jwt;
+  // 2. Si no viene en el header, intentamos leerlo desde la cookie `token`.
+  else if (req.cookies?.token) {
+    token = req.cookies.token;
+  } else if (req.cookie?.token) {
+    token = req.cookie.token;
   }
 
   // 3. Si no hay token, la ruta queda bloqueada.

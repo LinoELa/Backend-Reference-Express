@@ -3,11 +3,14 @@
 // ======================= AUTH | LOGOUT CONTROLLER ========================
 
 /**
- * Controller de logout.
+ * - Cierra la sesion del usuario.
+ * - Limpia la cookie del token
+ * - Devuelve una respuesta de salida correcta
+ *
  * Este archivo se puede usar para limpiar la cookie del token
  * y cerrar la sesion del usuario en el cliente.
  *
- * @LOGOUT | POST /api/auth/logout
+ * @LOGOUT | POST /auth/logout
  *
  */
 

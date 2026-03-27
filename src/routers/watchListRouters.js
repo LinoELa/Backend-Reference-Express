@@ -3,12 +3,23 @@
 import express from "express";
 import { addToWatchListController } from "../controllers/watchList/addWatchListController.js";
 import { authMiddleware } from "../middlewares/authMiddleware.js";
+import { getWatchListController } from "../controllers/watchList/getWatchListController.js";
 import { removeFromWatchListController } from "../controllers/watchList/removeWatchListController.js";
 import { updateWatchListController } from "../controllers/watchList/updateWatchListController.js";
+import { validateRequest } from "../validations/validateRequest.js";
+import {
+  addToWatchListSchema,
+  updateWatchListSchema,
+} from "../validations/watchlistValidation.js";
 
 // ======================= EXPRESS ROUTER ==================================
 
 /**
+ * - Define las rutas de watchlist.
+ * - Aplica middleware de autenticacion
+ * - Conecta get, add, remove y update
+ * - Usa schemas de validacion con Zod
+ *
  * Importamos Express Router para definir rutas de watchlist.
  * @ROUTER | Express Router
  */
@@ -37,16 +48,23 @@ router.use(authMiddleware);
  * Este archivo define endpoints para gestionar peliculas
  * dentro de la lista personal del usuario.
  *
- * @WATCHLIST | POST /api/watchlist
+ * @WATCHLIST | /watchlist
  *
  */
+// Lista la watchlist del usuario autenticado.
+router.get("/", getWatchListController);
+
 // Agrega una pelicula a la watchlist del usuario.
-router.post("/", addToWatchListController);
+router.post("/", validateRequest(addToWatchListSchema), addToWatchListController);
 
 // Elimina un item concreto de la watchlist por su id.
 router.delete("/:id", removeFromWatchListController);
 
-// Actualizar un item concreto de la watchlist por su id.
-router.put("/:id", updateWatchListController);
+// Actualiza un item concreto de la watchlist por su id.
+router.put(
+  "/:id",
+  validateRequest(updateWatchListSchema),
+  updateWatchListController
+);
 
 export default router;

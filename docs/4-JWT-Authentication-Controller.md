@@ -160,10 +160,26 @@ src/
 ## Rutas actuales de auth
 
 ```javascript
-router.post("/register", registerController);
-router.post("/login", loginController);
+router.post("/register", validateRequest(registerSchema), registerController);
+router.post("/login", validateRequest(loginSchema), loginController);
 router.post("/logout", logoutController);
 ```
+
+## Validacion en las rutas de auth
+
+Ahora mismo `auth` tambien usa validaciones con Zod antes de llegar al controller.
+
+Los archivos principales de esta parte son:
+
+- [`validateRequest.js`](/c:/Users/Pc-lino-ela/Documents/Ela/DEVELOPER/EXPRESS-CRASH/PedroTech/src/validations/validateRequest.js)
+- [`authValidation.js`](/c:/Users/Pc-lino-ela/Documents/Ela/DEVELOPER/EXPRESS-CRASH/PedroTech/src/validations/authValidation.js)
+
+La idea es esta:
+
+- el router recibe el body
+- `validateRequest(schema)` valida los campos
+- si algo falla, responde `400`
+- si sale bien, el controller recibe `req.body` ya limpio
 
 ## Que hace cada archivo
 
@@ -362,23 +378,22 @@ Ahora mismo tu modulo de auth ya tiene:
 - `register`
 - `login`
 - `logout`
+- validacion de body con Zod en `register` y `login`
 - hashing con `bcryptjs`
 - generacion de JWT
 - uso de `.env` para secretos
 - soporte para cookie `httpOnly`
 
-## Siguiente punto: middleware para watchlist
+## Siguiente punto: middleware y watchlist
 
-El siguiente paso natural es crear middleware de autenticacion.
+La base de middleware ya esta creada y conectada con `watchlist`.
 
-Ese middleware va a ser necesario en `watchlist`, porque ahi queremos asegurar que el usuario que agrega una pelicula a su lista realmente este logueado.
+Ahora el siguiente paso natural es pulir el flujo completo:
 
-La idea es esta:
+- hacer login real
+- recibir el JWT
+- usarlo por header o cookie
+- dejar que `authMiddleware` cargue `req.user`
+- trabajar la watchlist usando ese usuario autenticado
 
-- el usuario hace login
-- recibe un JWT
-- el middleware lee y valida ese token
-- si el token es correcto, deja pasar la peticion
-- entonces el usuario puede agregar la pelicula a `watchlist`
-
-En otras palabras, `watchlist` es el siguiente punto importante porque ya no basta con recibir un `userId` manual: necesitamos comprobar que el usuario autenticado sea quien hace la accion.
+En otras palabras, el siguiente punto ya no es crear el middleware desde cero, sino probar y ampliar el flujo privado completo.

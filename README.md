@@ -9,9 +9,10 @@ Este proyecto trabaja autenticacion de usuarios, peliculas y watchlist. Ahora mi
 - generacion de JWT
 - Prisma con PostgreSQL
 - IDs tipo UUID
+- validaciones con Zod
 - seed de usuarios
 - seed de peliculas
-- ruta base de watchlist
+- rutas de watchlist protegidas
 
 ## Stack
 
@@ -23,6 +24,7 @@ Este proyecto trabaja autenticacion de usuarios, peliculas y watchlist. Ahora mi
 - `bcryptjs`
 - `jsonwebtoken`
 - `dotenv`
+- `cookie-parser`
 
 ## Estructura base
 
@@ -31,9 +33,11 @@ src/
   config/
   controllers/
     auth/
+    movie/
     watchList/
   middlewares/
   routers/
+  validations/
   utils/
     token/
 prisma/
@@ -154,12 +158,15 @@ npm run dev
 
 - `GET /movies`
 - `POST /movies`
-- `PUT /movies`
-- `DELETE /movies`
+- `PUT /movies/:id`
+- `DELETE /movies/:id`
 
 ### Watchlist
 
+- `GET /watchlist`
 - `POST /watchlist`
+- `DELETE /watchlist/:id`
+- `PUT /watchlist/:id`
 
 ## Autenticacion
 
@@ -184,6 +191,7 @@ Relaciones importantes:
 - `Movie.createdBy` guarda el UUID del usuario creador
 - `watchlistItem` relaciona usuario y pelicula
 - `@@unique([userId, movieId])` evita duplicados en watchlist
+- al crear una movie, `createdBy` sale de `req.user.id`
 
 ## Seeds
 
@@ -218,22 +226,45 @@ Ahora mismo ya esta montado:
 - auth con JWT
 - IDs UUID
 - seeds separados por usuarios y peliculas
-- watchlist base
+- watchlist con `GET`, add, remove y update
+- movies con controllers reales
+
+## Estado de watchlist
+
+Ahora mismo `watchlist` ya:
+
+- usa `authMiddleware`
+- permite listar la watchlist del usuario con `GET`
+- trabaja con `req.user.id`
+- valida `POST` y `PUT` con Zod
+- evita duplicados por usuario y pelicula
+
+## Estado de movies
+
+Ahora mismo `movies` ya:
+
+- tiene carpeta propia de controllers
+- permite listar peliculas con `GET`
+- protege `POST`, `PUT` y `DELETE` con `authMiddleware`
+- usa `req.user.id` como `createdBy`
+- valida `POST` y `PUT` con Zod
 
 ## Siguiente paso
 
-El siguiente punto natural es crear middleware de autenticacion para proteger `watchlist`.
-
-La idea es asegurar que el usuario que agrega una pelicula a la watchlist este realmente logueado y no mande solo un `userId` manual.
+El siguiente punto natural es probar el flujo completo desde login hasta watchlist y seguir ampliando rutas privadas.
 
 ## Documentacion interna
 
 Tienes documentacion adicional en:
 
+- `docs/1-Setup-Nodejs-Server.md`
+- `docs/2-database-routers.md`
 - `docs/3-PostgreSQL-Prisma.md`
 - `docs/4-JWT-Authentication-Controller.md`
 - `docs/5-seed-file.md`
 - `docs/6-Watchlist-Routes-and-Controllers.md`
 - `docs/7-Middleware.md`
+- `docs/8-Validations.md`
+- `docs/9-Movie-Controllers-and-Get.md`
 - `docs/github.md`
 - `docs/prepararTodo.md`

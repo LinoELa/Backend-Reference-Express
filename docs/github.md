@@ -38,14 +38,14 @@ La idea es dejar cerrado el bloque completo.
 Ahora mismo el proyecto se esta construyendo por fases, por ejemplo:
 
 1. servidor base
-2. base de datos y routers
+2. database y routers
 3. PostgreSQL, Prisma y `.env`
-4. registro de usuario
-5. JWT, login, logout y `generateToken`
-6. cambio de IDs a UUID
-7. seeds
-8. watchlist
-9. siguiente paso: middleware de autenticacion
+4. JWT, login, logout y `generateToken`
+5. seed files
+6. watchlist, routes y controllers
+7. middlewares
+8. validaciones con Zod
+9. movie controllers y rutas GET
 
 Cada fase intenta dejar:
 
@@ -217,7 +217,7 @@ Ejemplo:
 
 ```bash
 git switch main
-git merge 6-Watchlist-Routes-&-Controllers
+git merge 6-Watchlist-Routes-and-Controllers
 ```
 
 ### Ver el remoto configurado
@@ -287,7 +287,7 @@ Estamos trabajando por ramas tematicas.
 La rama actual es:
 
 ```text
-6-Watchlist-Routes-&-Controllers
+8-Validations
 ```
 
 ### Idea de esta estructura
@@ -300,7 +300,7 @@ El nombre de la rama intenta decir:
 Ejemplo:
 
 ```text
-6-Watchlist-Routes-&-Controllers
+6-Watchlist-Routes-and-Controllers
 ```
 
 Eso indica que esta rama se centra en:
@@ -321,6 +321,8 @@ Podemos seguir una estructura parecida a esta:
 5-jwt-authentication-controllers
 6-watchlist-routes-controllers
 7-auth-middleware
+8-validations
+9-movie-controllers-and-get
 ```
 
 Lo importante es que el nombre:
@@ -350,8 +352,10 @@ Despues de cerrar una fase:
 
 ## Siguiente punto del proyecto
 
-El siguiente paso natural es crear middleware de autenticacion.
+La base de middleware ya esta creada.
 
-Ese middleware sera importante sobre todo en `watchlist`, porque ahi queremos asegurar que el usuario que agrega una pelicula este realmente logueado.
+Ahora el siguiente punto natural es seguir trabajando rutas privadas encima de esa base:
 
-La idea es evitar depender de un `userId` manual en la peticion y empezar a leer el usuario desde el token JWT.
+- probar login + token + watchlist
+- decidir si el frontend enviara el token por header, cookie o ambos
+- ampliar watchlist con mas endpoints si hace falta

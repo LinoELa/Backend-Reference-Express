@@ -5,11 +5,15 @@ import { prisma } from "../../config/db.js";
 // ======================= WATCHLIST | ADD CONTROLLER ======================
 
 /**
- * Controller para agregar peliculas a la watchlist.
+ * - Agrega una pelicula a la watchlist.
+ * - Valida que la pelicula exista
+ * - Evita duplicados para el mismo usuario
+ * - Requiere middleware de autenticacion
+ *
  * Este archivo valida la pelicula y evita duplicados
  * antes de crear un item en `watchlistItem`.
  *
- * @WATCHLIST | POST /api/watchlist
+ * @WATCHLIST | POST /watchlist
  *
  */
 

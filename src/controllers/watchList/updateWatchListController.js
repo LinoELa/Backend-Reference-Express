@@ -5,12 +5,16 @@ import { prisma } from "../../config/db.js";
 // ======================= WATCHLIST | UPDATE CONTROLLER ===================
 
 /**
- * Controller para actualizar un item de la watchlist.
+ * - Actualiza un item de la watchlist.
+ * - Actualiza `status`, `rating` o `notes`
+ * - Asegura que solo el duenio pueda editarlo
+ * - Requiere middleware de autenticacion
+ *
  * Este archivo comprueba que el item exista,
  * que pertenezca al usuario autenticado
  * y luego actualiza sus campos editables.
  *
- * @WATCHLIST | PUT /api/watchlist/:id
+ * @WATCHLIST | PUT /watchlist/:id
  *
  */
 

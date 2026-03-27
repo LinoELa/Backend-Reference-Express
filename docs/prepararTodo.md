@@ -20,6 +20,7 @@ Si se pide `prepara todo`, hay que revisar:
 - utils
 - seeds
 - scripts de `package.json`
+- validaciones
 - archivos `@...md`
 - documentacion general como `README.md` y `docs/...`
 
@@ -35,6 +36,7 @@ Ademas del cambio principal, tambien hay que corregir:
 - archivos nuevos sin documentar
 - carpetas nuevas sin su `@...md`
 - indices generales que no mencionan modulos nuevos
+- schemas o middlewares de validacion sin conectar al router
 
 ## Que se tiene que agregar
 
@@ -45,6 +47,7 @@ Por ejemplo:
 - crear un `@watchList.md` si aparece una carpeta nueva `watchList`
 - actualizar [`@controllers.md`](/c:/Users/Pc-lino-ela/Documents/Ela/DEVELOPER/EXPRESS-CRASH/PedroTech/src/controllers/@controllers.md) si aparece un nuevo grupo de controllers
 - actualizar [`@routers.md`](/c:/Users/Pc-lino-ela/Documents/Ela/DEVELOPER/EXPRESS-CRASH/PedroTech/src/routers/@routers.md) si aparece un router nuevo
+- crear `@validations.md` si aparece la carpeta `validations`
 - actualizar seeds y su documentacion si cambia la estructura de `prisma/seed`
 - actualizar `README.md` o `docs/...` si el proyecto ya no coincide con lo escrito
 

@@ -2,20 +2,22 @@
 
 ## Objetivo de esta parte
 
-En esta fase del proyecto se ha preparado la parte inicial de `watchlist`.
+En esta fase del proyecto se ha preparado la parte de `watchlist`.
 
-La idea es permitir que un usuario pueda agregar peliculas a su lista personal usando una ruta propia y un controller separado.
+La idea es permitir que un usuario autenticado pueda listar, agregar, borrar y actualizar peliculas en su lista personal usando rutas propias y controllers separados.
 
 ## Que se ha creado
 
 En esta parte se han creado:
 
 - la ruta [`watchListRouters.js`](/c:/Users/Pc-lino-ela/Documents/Ela/DEVELOPER/EXPRESS-CRASH/PedroTech/src/routers/watchListRouters.js)
+- el controller [`getWatchListController.js`](/c:/Users/Pc-lino-ela/Documents/Ela/DEVELOPER/EXPRESS-CRASH/PedroTech/src/controllers/watchList/getWatchListController.js)
 - el controller [`addWatchListController.js`](/c:/Users/Pc-lino-ela/Documents/Ela/DEVELOPER/EXPRESS-CRASH/PedroTech/src/controllers/watchList/addWatchListController.js)
 - el controller [`removeWatchListController.js`](/c:/Users/Pc-lino-ela/Documents/Ela/DEVELOPER/EXPRESS-CRASH/PedroTech/src/controllers/watchList/removeWatchListController.js)
 - el controller [`updateWatchListController.js`](/c:/Users/Pc-lino-ela/Documents/Ela/DEVELOPER/EXPRESS-CRASH/PedroTech/src/controllers/watchList/updateWatchListController.js)
 - el middleware [`authMiddleware.js`](/c:/Users/Pc-lino-ela/Documents/Ela/DEVELOPER/EXPRESS-CRASH/PedroTech/src/middlewares/authMiddleware.js)
 - la carpeta interna [`@watchList.md`](/c:/Users/Pc-lino-ela/Documents/Ela/DEVELOPER/EXPRESS-CRASH/PedroTech/src/controllers/watchList/@watchList.md)
+- la carpeta interna [`@validations.md`](/c:/Users/Pc-lino-ela/Documents/Ela/DEVELOPER/EXPRESS-CRASH/PedroTech/src/validations/@validations.md)
 
 Tambien se conecto la ruta en [`server.js`](/c:/Users/Pc-lino-ela/Documents/Ela/DEVELOPER/EXPRESS-CRASH/PedroTech/server.js):
 
@@ -28,14 +30,16 @@ app.use("/watchlist", watchListRouters);
 Ahora mismo las rutas disponibles son:
 
 ```javascript
-router.post("/", addToWatchListController);
+router.get("/", getWatchListController);
+router.post("/", validateRequest(addToWatchListSchema), addToWatchListController);
 router.delete("/:id", removeFromWatchListController);
-router.put("/:id", updateWatchListController);
+router.put("/:id", validateRequest(updateWatchListSchema), updateWatchListController);
 ```
 
 Eso significa que los endpoints actuales son:
 
 ```text
+GET /watchlist
 POST /watchlist
 DELETE /watchlist/:id
 PUT /watchlist/:id
@@ -52,6 +56,13 @@ PUT /watchlist/:id
 - revisa si esa pelicula ya estaba en la watchlist de ese usuario
 - si no existe, crea un nuevo item en `watchlistItem`
 
+### `getWatchListController`
+
+- usa `req.user.id` desde el middleware
+- lista solo los items del usuario autenticado
+- incluye informacion de la pelicula relacionada
+- devuelve la watchlist ordenada por fecha de creacion
+
 ### `removeFromWatchListController`
 
 - busca el item por `req.params.id`
@@ -66,6 +77,14 @@ PUT /watchlist/:id
 - comprueba que pertenezca al usuario autenticado
 - actualiza `status`, `rating` y `notes`
 - solo modifica los campos que lleguen en el body
+
+## Validacion con Zod
+
+Antes de entrar en los controllers:
+
+- `POST /watchlist` valida `movieId`, `status`, `rating` y `notes`
+- `PUT /watchlist/:id` valida `status`, `rating` y `notes`
+- `validateRequest` reemplaza `req.body` por los datos ya validados
 
 ## Validaciones importantes
 
@@ -150,6 +169,7 @@ src/
   controllers/
     watchList/
       @watchList.md
+      getWatchListController.js
       addWatchListController.js
       removeWatchListController.js
       updateWatchListController.js
@@ -157,6 +177,10 @@ src/
     watchListRouters.js
   middlewares/
     authMiddleware.js
+  validations/
+    @validations.md
+    validateRequest.js
+    watchlistValidation.js
 server.js
 ```
 
@@ -165,8 +189,9 @@ server.js
 Ahora mismo `watchlist` ya tiene:
 
 - su propia ruta
-- controllers separados para add, remove y update
+- controllers separados para get, add, remove y update
 - validacion basica
+- validacion con Zod en `POST` y `PUT`
 - control de duplicados
 - conexion con Prisma
 - middleware de autenticacion conectado
@@ -176,18 +201,14 @@ Ahora mismo `watchlist` ya tiene:
 Aunque la ruta ya funciona a nivel base, todavia hay una mejora clave pendiente:
 
 - afinar completamente la integracion middleware + auth segun el flujo final
-- decidir si el token vendra por header, cookie o ambos
+- decidir si el token vendra por header, cookie o ambos en el frontend
 
 ## Siguiente paso natural
 
-El siguiente punto del proyecto es crear middleware de autenticacion para `watchlist`.
+El siguiente punto natural ya no es crear el middleware desde cero, porque esa parte base ya existe.
 
-La razon es que ahora mismo se sigue recibiendo `userId` manualmente en el body.
+Ahora lo siguiente es pulir el flujo final:
 
-Mas adelante lo correcto sera:
-
-- hacer login
-- recibir un JWT
-- validar ese token con middleware
-- obtener el usuario autenticado desde el token
-- usar ese usuario en `watchlist` sin confiar en un `userId` mandado manualmente
+- decidir como se enviara el token desde el frontend
+- probar `watchlist` completa con login real
+- ampliar rutas como listado personal de watchlist si hace falta

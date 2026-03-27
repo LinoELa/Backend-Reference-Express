@@ -6,11 +6,15 @@ import { prisma } from "../../config/db.js";
 // ======================= AUTH | REGISTER CONTROLLER ======================
 
 /**
- * Controller de registro.
+ * - Registra un usuario nuevo.
+ * - Valida campos obligatorios
+ * - Evita emails duplicados
+ * - Hashea la password antes de guardar
+ *
  * Este archivo recibe los datos del usuario, valida duplicados,
  * aplica hashing con bcryptjs y crea el usuario en la base de datos.
  *
- * @REGISTER | POST /api/auth/register
+ * @REGISTER | POST /auth/register
  *
  */
 
