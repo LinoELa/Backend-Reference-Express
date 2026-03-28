@@ -1,4 +1,4 @@
-﻿# JWT Authentication y Controllers
+# JWT Authentication y Controllers
 
 ## Authentication
 
@@ -171,8 +171,8 @@ Ahora mismo `auth` tambien usa validaciones con Zod antes de llegar al controlle
 
 Los archivos principales de esta parte son:
 
-- [`validateRequest.js`](../src/validations/validateRequest.js)
-- [`authValidation.js`](../src/validations/authValidation.js)
+- [`validateRequest.js`](../../src/validations/validateRequest.js)
+- [`authValidation.js`](../../src/validations/authValidation.js)
 
 La idea es esta:
 
@@ -230,13 +230,13 @@ return res.status(200).json({
 
 En este proyecto actual, el login y el JWT trabajan con `user.id`.
 
-Eso se ve en [`loginController.js`](../src/controllers/auth/loginController.js):
+Eso se ve en [`loginController.js`](../../src/controllers/auth/loginController.js):
 
 ```javascript
 const token = generateToken(user.id, res);
 ```
 
-Y tambien en [`generateToken.js`](../src/utils/token/generateToken.js), donde el payload guarda ese valor:
+Y tambien en [`generateToken.js`](../../src/utils/token/generateToken.js), donde el payload guarda ese valor:
 
 ```javascript
 const payload = {
@@ -397,4 +397,5 @@ Ahora el siguiente paso natural es pulir el flujo completo:
 - trabajar la watchlist usando ese usuario autenticado
 
 En otras palabras, el siguiente punto ya no es crear el middleware desde cero, sino probar y ampliar el flujo privado completo.
+
 

@@ -1,4 +1,4 @@
-﻿# Validations con Zod
+# Validations con Zod
 
 ## Objetivo de esta parte
 
@@ -10,11 +10,11 @@ La idea es evitar que el controller reciba datos incompletos o con formato incor
 
 En esta parte se han creado o preparado:
 
-- [`validateRequest.js`](../src/validations/validateRequest.js)
-- [`authValidation.js`](../src/validations/authValidation.js)
-- [`movieValidation.js`](../src/validations/movieValidation.js)
-- [`watchlistValidation.js`](../src/validations/watchlistValidation.js)
-- [`@validations.md`](../src/validations/@validations.md)
+- [`validateRequest.js`](../../src/validations/validateRequest.js)
+- [`authValidation.js`](../../src/validations/authValidation.js)
+- [`movieValidation.js`](../../src/validations/movieValidation.js)
+- [`watchlistValidation.js`](../../src/validations/watchlistValidation.js)
+- [`@validations.md`](../../src/validations/@validations.md)
 
 ## Que hace `validateRequest`
 
@@ -42,7 +42,7 @@ Esos schemas validan:
 - `email`
 - `password`
 
-Y se usan en [`authRouters.js`](../src/routers/authRouters.js):
+Y se usan en [`authRouters.js`](../../src/routers/authRouters.js):
 
 ```javascript
 router.post("/register", validateRequest(registerSchema), registerController);
@@ -68,7 +68,7 @@ Estos schemas validan campos como:
 
 `createdBy` ya no viaja en el body porque el controller lo toma desde `req.user.id`.
 
-Y se usan en [`movieRouters.js`](../src/routers/movieRouters.js).
+Y se usan en [`movieRouters.js`](../../src/routers/movieRouters.js).
 
 ## Validaciones de `watchlist`
 
@@ -84,7 +84,7 @@ Estos schemas validan:
 - `rating`
 - `notes`
 
-Y se usan en [`watchListRouters.js`](../src/routers/watchListRouters.js).
+Y se usan en [`watchListRouters.js`](../../src/routers/watchListRouters.js).
 
 ## Ventaja de este enfoque
 
@@ -124,4 +124,5 @@ En esta fase ya tenemos:
 ## Siguiente paso natural
 
 El siguiente punto natural es seguir probando el flujo completo con datos reales y, si hace falta, anadir validacion tambien a `params` y `query`.
+
 

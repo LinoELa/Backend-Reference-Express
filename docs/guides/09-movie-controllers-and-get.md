@@ -1,4 +1,4 @@
-﻿# Movie Controllers y GET
+# Movie Controllers y GET
 
 ## Objetivo de esta parte
 
@@ -10,12 +10,12 @@ La idea es dejar `movies` con la misma estructura modular que ya tiene `auth` y 
 
 En esta parte se han creado:
 
-- [`@movie.md`](../src/controllers/movie/@movie.md)
-- [`getMoviesController.js`](../src/controllers/movie/getMoviesController.js)
-- [`addMovieController.js`](../src/controllers/movie/addMovieController.js)
-- [`updateMovieController.js`](../src/controllers/movie/updateMovieController.js)
-- [`removeMovieController.js`](../src/controllers/movie/removeMovieController.js)
-- [`getWatchListController.js`](../src/controllers/watchList/getWatchListController.js)
+- [`@movie.md`](../../src/controllers/movie/@movie.md)
+- [`getMoviesController.js`](../../src/controllers/movie/getMoviesController.js)
+- [`addMovieController.js`](../../src/controllers/movie/addMovieController.js)
+- [`updateMovieController.js`](../../src/controllers/movie/updateMovieController.js)
+- [`removeMovieController.js`](../../src/controllers/movie/removeMovieController.js)
+- [`getWatchListController.js`](../../src/controllers/watchList/getWatchListController.js)
 
 ## Que hace cada controller de `movies`
 
@@ -106,4 +106,5 @@ Ahora `movies` ya sigue la misma linea que el resto del proyecto:
 ## Siguiente paso natural
 
 El siguiente punto natural es seguir ampliando el modulo de movies y watchlist con mas consultas, por ejemplo detalle por `id`, filtros o busqueda.
+
 

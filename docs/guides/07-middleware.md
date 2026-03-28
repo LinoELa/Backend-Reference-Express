@@ -1,4 +1,4 @@
-﻿# Middleware
+# Middleware
 
 ## Objetivo de esta parte
 
@@ -19,7 +19,7 @@ Sirve para hacer tareas como:
 
 ## Archivo actual
 
-El middleware actual esta en [`authMiddleware.js`](../src/middlewares/authMiddleware.js).
+El middleware actual esta en [`authMiddleware.js`](../../src/middlewares/authMiddleware.js).
 
 ## Que hace `authMiddleware`
 
@@ -52,7 +52,7 @@ Con middleware, la idea correcta es:
 
 ## Relacion con watchlist y movies
 
-En [`watchListRouters.js`](../src/routers/watchListRouters.js) ya se esta usando:
+En [`watchListRouters.js`](../../src/routers/watchListRouters.js) ya se esta usando:
 
 ```javascript
 router.use(authMiddleware);
@@ -60,7 +60,7 @@ router.use(authMiddleware);
 
 Eso significa que las rutas de `watchlist` pasan primero por el middleware antes de llegar al controller.
 
-En [`movieRouters.js`](../src/routers/movieRouters.js) tambien se usa `authMiddleware` para proteger `POST`, `PUT` y `DELETE`, mientras que `GET /movies` queda publico.
+En [`movieRouters.js`](../../src/routers/movieRouters.js) tambien se usa `authMiddleware` para proteger `POST`, `PUT` y `DELETE`, mientras que `GET /movies` queda publico.
 
 ## Estructura actual relacionada
 
@@ -107,4 +107,5 @@ Aunque ya existe la base del middleware, todavia hay mejoras pendientes:
 ## Siguiente paso natural
 
 El siguiente punto es seguir construyendo rutas privadas encima de esta base, usando `req.user` y validaciones antes de llegar al controller.
+
 

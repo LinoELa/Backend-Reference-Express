@@ -85,7 +85,7 @@ src/
 prisma/
   migrations/
   seed/
-docs/
+Docs/
 ```
 
 ## Variables de entorno
@@ -299,15 +299,17 @@ El siguiente punto natural es probar el flujo completo desde login hasta watchli
 
 Tienes documentacion adicional en:
 
-- `docs/1-Setup-Nodejs-Server.md`
-- `docs/2-database-routers.md`
-- `docs/3-PostgreSQL-Prisma.md`
-- `docs/4-JWT-Authentication-Controller.md`
-- `docs/5-seed-file.md`
-- `docs/6-Watchlist-Routes-and-Controllers.md`
-- `docs/7-Middleware.md`
-- `docs/8-Validations.md`
-- `docs/9-Movie-Controllers-and-Get.md`
-- `docs/github.md`
-- `docs/prepararTodo.md`
+- `Docs/Project/01-setup-nodejs-server.md`
+- `Docs/Project/02-database-and-routers.md`
+- `Docs/Project/03-postgresql-prisma.md`
+- `Docs/Project/04-jwt-authentication.md`
+- `Docs/Project/05-seed-file.md`
+- `Docs/Project/06-watchlist-routes-and-controllers.md`
+- `Docs/Project/07-middleware.md`
+- `Docs/Project/08-validations.md`
+- `Docs/Project/09-movie-controllers-and-get.md`
+- `Docs/Reference/github-workflow.md`
+- `Docs/Reference/http-status.md`
+- `Docs/Reference/preparar-todo.md`
+- `Docs/Architecture/Arquitectura-Hexagonal.md`
 

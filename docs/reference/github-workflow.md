@@ -1,4 +1,4 @@
-﻿# GitHub y flujo de trabajo
+# GitHub y flujo de trabajo
 
 ## Sistema que estamos llevando
 
@@ -15,7 +15,7 @@ No estamos haciendo commits por archivos sueltos, sino por avances funcionales.
 
 ## Regla interna: `preparar todo`
 
-En este proyecto ya existe una regla interna llamada [`prepararTodo.md`](../docs/prepararTodo.md).
+En este proyecto ya existe una regla interna llamada [`prepararTodo.md`](./preparar-todo.md).
 
 Esa regla significa que, cuando se diga `preparar todo`, no basta con tocar un archivo puntual.
 
@@ -359,4 +359,5 @@ Ahora el siguiente punto natural es seguir trabajando rutas privadas encima de e
 - probar login + token + watchlist
 - decidir si el frontend enviara el token por header, cookie o ambos
 - ampliar watchlist con mas endpoints si hace falta
+
 

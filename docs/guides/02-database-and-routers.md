@@ -1,4 +1,4 @@
-﻿# Database y Routers
+# Database y Routers
 
 ## Database
 
@@ -66,4 +66,5 @@ Su trabajo es:
 - recibir la peticion
 - pasar por middlewares o validaciones si toca
 - llamar al controller final
+
 

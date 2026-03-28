@@ -1,4 +1,4 @@
-﻿# Watchlist, Routes y Controllers
+# Watchlist, Routes y Controllers
 
 ## Objetivo de esta parte
 
@@ -10,16 +10,16 @@ La idea es permitir que un usuario autenticado pueda listar, agregar, borrar y a
 
 En esta parte se han creado:
 
-- la ruta [`watchListRouters.js`](../src/routers/watchListRouters.js)
-- el controller [`getWatchListController.js`](../src/controllers/watchList/getWatchListController.js)
-- el controller [`addWatchListController.js`](../src/controllers/watchList/addWatchListController.js)
-- el controller [`removeWatchListController.js`](../src/controllers/watchList/removeWatchListController.js)
-- el controller [`updateWatchListController.js`](../src/controllers/watchList/updateWatchListController.js)
-- el middleware [`authMiddleware.js`](../src/middlewares/authMiddleware.js)
-- la carpeta interna [`@watchList.md`](../src/controllers/watchList/@watchList.md)
-- la carpeta interna [`@validations.md`](../src/validations/@validations.md)
+- la ruta [`watchListRouters.js`](../../src/routers/watchListRouters.js)
+- el controller [`getWatchListController.js`](../../src/controllers/watchList/getWatchListController.js)
+- el controller [`addWatchListController.js`](../../src/controllers/watchList/addWatchListController.js)
+- el controller [`removeWatchListController.js`](../../src/controllers/watchList/removeWatchListController.js)
+- el controller [`updateWatchListController.js`](../../src/controllers/watchList/updateWatchListController.js)
+- el middleware [`authMiddleware.js`](../../src/middlewares/authMiddleware.js)
+- la carpeta interna [`@watchList.md`](../../src/controllers/watchList/@watchList.md)
+- la carpeta interna [`@validations.md`](../../src/validations/@validations.md)
 
-Tambien se conecto la ruta en [`server.js`](../server.js):
+Tambien se conecto la ruta en [`server.js`](../../server.js):
 
 ```javascript
 app.use("/watchlist", watchListRouters);
@@ -212,4 +212,5 @@ Ahora lo siguiente es pulir el flujo final:
 - decidir como se enviara el token desde el frontend
 - probar `watchlist` completa con login real
 - ampliar rutas como listado personal de watchlist si hace falta
+
 

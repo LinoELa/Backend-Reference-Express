@@ -1,4 +1,4 @@
-﻿# PostgreSQL, Prisma y Dotenv
+# PostgreSQL, Prisma y Dotenv
 
 ## PostgreSQL
 
@@ -387,4 +387,5 @@ dotenv.config();
 - muy centrado en TypeScript
 - tipado fuerte y consultas bastante explicitas
 - buena opcion si quieres mas control y menos abstraccion
+
 
